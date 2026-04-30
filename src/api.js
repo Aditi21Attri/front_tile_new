@@ -24,9 +24,17 @@ async function fetchWithTimeout(url, options = {}) {
   const timeoutId = setTimeout(() => controller.abort(), 120000);
 
   try {
+    // Merge headers: always include ngrok-skip-browser-warning to bypass
+    // ngrok free-tier interstitial page (which has no CORS headers).
+    const mergedHeaders = {
+      'ngrok-skip-browser-warning': '69420',
+      ...(options.headers || {}),
+    };
+
     const res = await fetch(url, {
       signal: controller.signal,
-      ...options
+      ...options,
+      headers: mergedHeaders,
     });
     clearTimeout(timeoutId);
 
