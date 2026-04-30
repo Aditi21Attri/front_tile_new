@@ -87,7 +87,9 @@ export default function Visualization() {
         setRecommendedTilesUsed(false);
 
         // Try fetching from catalogue first
-        let res = await fetch(`${MAIN_API}/api/v1/catalogue/search?q=*&limit=50`);
+        let res = await fetch(`${MAIN_API}/api/v1/catalogue/search?q=*&limit=50`, {
+          headers: { 'ngrok-skip-browser-warning': '69420' },
+        });
         if (res.ok) {
           const data = await res.json();
           if (data.results && data.results.length > 0) {
@@ -97,7 +99,9 @@ export default function Visualization() {
           }
         }
         // Fall back to blank query
-        res = await fetch(`${MAIN_API}/api/v1/catalogue/search?q=&limit=50`);
+        res = await fetch(`${MAIN_API}/api/v1/catalogue/search?q=&limit=50`, {
+          headers: { 'ngrok-skip-browser-warning': '69420' },
+        });
         if (res.ok) {
           const data = await res.json();
           if (data.results && data.results.length > 0) {
@@ -109,7 +113,9 @@ export default function Visualization() {
 
         // Catalogue is empty — try loading from static/tiles_images directory
         console.log("Catalogue empty, trying static tiles directory fallback...");
-        const fallbackRes = await fetch(`${MAIN_API}/api/v1/tiles/available`);
+        const fallbackRes = await fetch(`${MAIN_API}/api/v1/tiles/available`, {
+          headers: { 'ngrok-skip-browser-warning': '69420' },
+        });
         if (fallbackRes.ok) {
           const fallbackData = await fallbackRes.json();
           if (fallbackData.tiles && fallbackData.tiles.length > 0) {
@@ -205,6 +211,7 @@ export default function Visualization() {
       try {
         const res = await fetch(`${MAIN_API}/api/v1/visualize/status/${taskId}`, {
           signal: controller.signal,
+          headers: { 'ngrok-skip-browser-warning': '69420' },
         });
 
         if (!res.ok) {
@@ -297,6 +304,7 @@ export default function Visualization() {
       const uploadRes = await fetch(`${MAIN_API}/api/v1/upload`, {
         method: 'POST',
         body: formData,
+        headers: { 'ngrok-skip-browser-warning': '69420' },
       });
 
       if (!uploadRes.ok) {
@@ -328,7 +336,10 @@ export default function Visualization() {
       setStatusMessage('Submitting generation request to Flux AI...');
       const genRes = await fetch(`${MAIN_API}/api/v1/visualize`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'ngrok-skip-browser-warning': '69420',
+        },
         body: new URLSearchParams({
           room_image_url: imageUrl,
           tile_image_url: tileImageUrl,

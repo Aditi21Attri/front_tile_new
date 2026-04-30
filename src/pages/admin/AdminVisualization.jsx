@@ -33,7 +33,9 @@ export default function AdminVisualization() {
   useEffect(() => {
     const fetchTiles = async () => {
       try {
-        const res = await fetch(`${MAIN_API}/api/v1/catalogue/search?q=&limit=50`);
+        const res = await fetch(`${MAIN_API}/api/v1/catalogue/search?q=&limit=50`, {
+          headers: { 'ngrok-skip-browser-warning': '69420' },
+        });
         if (res.ok) {
           const data = await res.json();
           setTiles(data.results || []);
@@ -92,7 +94,9 @@ export default function AdminVisualization() {
     const interval = setInterval(async () => {
       attempts++;
       try {
-        const res = await fetch(`${FLUX_API}/api/flux/status/${taskId}`);
+        const res = await fetch(`${FLUX_API}/api/flux/status/${taskId}`, {
+          headers: { 'ngrok-skip-browser-warning': '69420' },
+        });
         const data = await res.json();
 
         if (data.status === 'completed') {
@@ -134,7 +138,8 @@ export default function AdminVisualization() {
       formData.append('image', roomImageFile);
       let uploadRes = await fetch(`${MAIN_API}/api/v1/upload`, {
         method: 'POST',
-        body: formData
+        body: formData,
+        headers: { 'ngrok-skip-browser-warning': '69420' },
       });
       if (!uploadRes.ok) {
         throw new Error('Upload endpoint failed or missing on backend: ' + uploadRes.status);
@@ -149,7 +154,10 @@ export default function AdminVisualization() {
       // Step 3: Call flux_service generate
       const genRes = await fetch(`${FLUX_API}/api/flux/generate`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'ngrok-skip-browser-warning': '69420',
+        },
         body: JSON.stringify({
           image_url: imageUrl,
           prompt: promptText + ` Reference tile: ${tileImageUrl}`,
